@@ -42,6 +42,11 @@ module Quickbooks
         fetch_object(model, url, params)
       end
 
+      def fetch(args)
+        object_query = "select * from #{model.resource_for_singular} where #{format_where_query(args)}"
+        all(object_query)
+      end
+
       def create(entity, options = {})
         raise Quickbooks::InvalidModelException.new(entity.errors.full_messages.join(',')) unless entity.valid?
         xml = entity.to_xml_ns(options)
@@ -69,6 +74,20 @@ module Quickbooks
         else
           false
         end
+      end
+
+    private
+
+      def format_where_query(args)
+        selectors = args.map do |field, options|
+          options = [options] unless options.is_a?(Array)
+
+          formatted_field = field.to_s.camelize
+          formatted_options = options.map { |option| "'#{option}'" }.join(",")
+          "#{formatted_field} in (#{formatted_options})"
+        end
+
+        selectors.join(" and ")
       end
     end
   end
