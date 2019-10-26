@@ -17,6 +17,7 @@ module Quickbooks
       XML_COLLECTION_NODE = "Invoice"
       XML_NODE = "Invoice"
       EMAIL_STATUS_NEED_TO_SEND = 'NeedToSend'
+      MINORVERSION = 36
 
       xml_accessor :id, :from => 'Id'
       xml_accessor :sync_token, :from => 'SyncToken', :as => Integer
@@ -58,6 +59,7 @@ module Quickbooks
       xml_accessor :allow_online_credit_card_payment?, :from => 'AllowOnlineCreditCardPayment'
       xml_accessor :allow_online_ach_payment?, :from => 'AllowOnlineACHPayment'
       xml_accessor :deposit_to_account_ref, :from => 'DepositToAccountRef', :as => BaseReference
+      xml_accessor :invoice_link, :from => 'InvoiceLink'
 
 
       reference_setters

@@ -2,6 +2,11 @@ module Quickbooks
   module Service
     class Invoice < BaseService
 
+      def url_for_query(query = nil, start_position = 1, max_results = 20, options = {})
+        url = super(query, start_position, max_results, options)
+        "#{url}&minorversion=#{Quickbooks::Model::Invoice::MINORVERSION}"
+      end
+
       def delete(invoice)
         delete_by_query_string(invoice)
       end
